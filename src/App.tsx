@@ -2,6 +2,7 @@
 import { products } from "../data/products";
 import Navbar from "./Navbar";
 import Footer from "./components/Footer";
+import Hero from "./components/Hero";
 import ProductItem from "./components/ProductItem";
 
 
@@ -11,6 +12,7 @@ export default function App() {
    
           
       <Navbar />
+      <Hero/>
       <section className="min-h-screen bg-slate-50 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 

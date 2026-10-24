@@ -3,6 +3,7 @@ import { ShoppingBag, Trash2, X } from "lucide-react";
 import { products } from "../data/products";
 import { useContext } from "react";
 import { FavoriteContext, FavoriteDispatchContext } from "./contexts/cartContext";
+import { toast } from "react-toastify";
 
 type Props = {
     favoriteonHide: () => void;
@@ -30,7 +31,8 @@ const favoriteProducts = favoriteItems.map((item) => {
 
         return product;
     })
-    .filter((item) => item !== null);
+        .filter((item) => item !== null);
+    const notify = (message: string) => toast.success(message);
 
 
     // const subtotal = cartProducts.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -101,10 +103,13 @@ const favoriteProducts = favoriteItems.map((item) => {
                                     <div className="flex items-center overflow-hidden rounded-lg border border-slate-200">
                                                                 
                                     </div> 
-                                    <button onClick={() => favoeiteDispatch({
-                                   type: "Delete",
-                                   payload: { id: item.id },
-                                    })}
+                                    <button onClick={() => {
+                                        favoeiteDispatch({
+                                            type: "Delete",
+                                            payload: { id: item.id },
+                                        });
+                                        notify(`${item.title} removed from cart`);
+                                    }}
                                         type="button"
                                         aria-label={`Remove ${item.title}`}
                                         className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"

@@ -2,6 +2,7 @@ import { Heart, ShoppingCart, Star } from 'lucide-react';
 import type { Product } from '../../types/product';
 import useDispatchCart from '../hooks/useDispatchCart';
 import useCart from "../hooks/useCart";
+import { toast } from "react-toastify";
 
 import { useContext } from "react";
 import {
@@ -27,6 +28,8 @@ export default function ProductItem({ product }: { product: Product }) {
     
     const isFavorite = favorites?.some(
         (item) => item.id === product.id);
+    
+    const notify = (message: string) => toast.success(message);
 
     return (
         <div
@@ -44,10 +47,14 @@ export default function ProductItem({ product }: { product: Product }) {
                     className="h-100% w-100% bg-cover object-contain transition-transform duration-500 group-hover:scale-110"/>
 
                 {/* Wishlist Button */}
-                <button onClick={() => favoriteDispatch?.({
-                    type: "Add",
-                    payload: { id: product.id },
-                })}
+                <button
+                    onClick={() => {
+                        favoriteDispatch?.({
+                            type: "Add",
+                            payload: { id: product.id },
+                        });
+                        notify(`${product.title} added to wishlist`);
+                    }}
                     type="button"
                     aria-label={`Add ${product.title} to wishlist`}
                     className={`absolute top-4 right-4 flex h-10 w-10 items-center justify-center
@@ -95,12 +102,13 @@ export default function ProductItem({ product }: { product: Product }) {
 
                 {/* Add to Cart Button */}
                 <button
-                    onClick={() => dispatch?.({
-                        type: "Add",
-                        payload: {
-                            id: product.id,
-                        }
-                    })}
+                    onClick={() => {
+                        dispatch?.({
+                            type: "Add",
+                            payload: { id: product.id },
+                        });
+                        notify(`${product.title} added to cart`);
+                    }}
                     type="button"
                    className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold text-white transition-colors ${
                     isAdded

@@ -4,6 +4,7 @@ import { products } from "../data/products";
 import useCart from "./hooks/useCart";
 import useDispatchCart from "./hooks/useDispatchCart";
 import type { CartItem } from "../types/cart.ts";
+import { toast } from "react-toastify";
 
 type Props = {
     onHide: () => void;
@@ -38,6 +39,8 @@ export default function CartPopup({ onHide }: Props) {
             quantity: item.quantity,
         };
     }).filter((item) => item !== null);
+
+    const notify = (message: string) => toast.success(message);
 
 
 
@@ -141,12 +144,15 @@ export default function CartPopup({ onHide }: Props) {
 
                                     {/* Remove Button */}
                                     <button
-                                        onClick={() => dispatch?.({
-                                            type: "Delete",
-                                            payload: {
-                                                id: item.id,
-                                            }
-                                        })}
+                                        onClick={() => {
+                                            dispatch?.({
+                                                type: "Delete",
+                                                payload: {
+                                                    id: item.id,
+                                                },
+                                            });
+                                            notify(`${item.title} removed from cart`);
+                                        }}
                                         type="button"
                                         aria-label={`Remove ${item.title}`}
                                         className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-red-50 hover:text-red-500"
